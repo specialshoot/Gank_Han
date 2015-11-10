@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tab_titles">
+        <item>分类数据</item>
+        <item>每日数据</item>
+    </string-array>
+</resources>

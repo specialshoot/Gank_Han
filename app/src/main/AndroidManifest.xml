@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.hanzh.gankio_han" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- 蓝牙分享所需的权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- 调节亮度用 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ganklogo"
+        android:label=""
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="wRRvHTBOPWCphOMByU0hjlxY" />
+
+        <activity
+            android:name=".HelloActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".WhatsNew" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PictureActivity"
+            android:label=""
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".WebActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:label=""
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".TodayActivity"
+            android:label=""
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".VideoActivity"
+            android:hardwareAccelerated="true"
+            android:label=""
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme" />
+
+        <!--
+        添加activity信息注：intent-filer 是处理QQ和QZone回调的，
+        其中tencent100371282里的tencent后的数字部分是QQ的id，一定要与sharesdk.xml里的QQ和QZone的Id保持一致；
+        (2.6.2之前用此intent处理QQ的回调，包括2.6.2的版本)
+        -->
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <data android:scheme="tencent100371282" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 微信分享回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- QQ客户端回调 -->
+        <activity
+            android:name="cn.sharesdk.tencent.qq.ResultReceiver"
+            android:launchMode="singleTask"
+            android:noHistory="true" />
+        <!--
+        如果集成QQ分享，或者使用QQ客户端来进行QQ空间的分享，须要在此处添加一个对ACTION_VIEW
+        事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置，
+        则分享结束以后不能得到正确的回调
+        -->
+        <intent-filter android:priority="1000" >
+            <data android:scheme="tencent100371282" />
+
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+        </intent-filter>
+
+        <!-- <service -->
+        <!-- android:name=".receiver.NetworkStateService" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true" > -->
+        <!-- </service> -->
+
+
+        <!-- 广告模块 -->
+        <activity
+            android:name="com.baidu.ops.appunion.sdk.activity.AppListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.baidu.ops.appunion.sdk.activity.WebActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+
+        <service
+            android:name="com.baidu.ops.appunion.sdk.service.AppUnionService"
+            android:exported="false"
+            android:label="AppUnionService" />
+
+        <meta-data
+            android:name="BDAPPUNIONSDK_APIKEY"
+            android:value="55b830c9a4446d5e7045c82fa9109838" />
+
+        <!-- <receiver -->
+        <!-- android:name=".receiver.ConnectionChangeReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true" > -->
+
+        <!-- &lt;!&ndash; <intent-filter> &ndash;&gt; -->
+        <!-- &lt;!&ndash; <action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> &ndash;&gt; -->
+        <!-- &lt;!&ndash; <action android:name="android.intent.action.USER_PRESENT" /> &ndash;&gt; -->
+        <!-- &lt;!&ndash; </intent-filter> &ndash;&gt; -->
+        <!-- </receiver> -->
+
+        <activity
+            android:name=".SettingActivity"
+            android:label=""
+            android:theme="@style/AppTheme" />
+        <activity android:name=".WeatherActivity" />
+    </application>
+
+</manifest>

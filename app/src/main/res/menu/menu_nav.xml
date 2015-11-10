@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_menu_home"
+            android:icon="@mipmap/ic_home_white_48dp"
+            android:title="首页" />
+
+        <item
+            android:id="@+id/nav_menu_setting"
+            android:icon="@mipmap/ic_settings_white_48dp"
+            android:title="设置" />
+    </group>
+    <item android:title="Follow &#038; Share Me!!!">
+        <menu>
+            <item
+                android:id="@+id/nav_menu_gitme"
+                android:icon="@mipmap/ic_github"
+                android:title="Fork me on GitHub" />
+
+            <item
+                android:id="@+id/nav_menu_share"
+                android:icon="@mipmap/ic_share_white_24dp"
+                android:title="Share Me" />
+        </menu>
+    </item>
+    <item android:title="杂！">
+        <menu>
+            <item
+                android:id="@+id/nav_menu_feedback"
+                android:icon="@mipmap/ic_message_white_48dp"
+                android:title="反馈" />
+            <item
+                android:id="@+id/nav_menu_about"
+                android:icon="@mipmap/ic_sort_by_alpha_white_48dp"
+                android:title="关于" />
+
+            <item
+                android:id="@+id/nav_menu_ad"
+                android:icon="@mipmap/menu_ad"
+                android:title="应用推荐" />
+        </menu>
+    </item>
+</menu>

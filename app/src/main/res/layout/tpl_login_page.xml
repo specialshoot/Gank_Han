@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/meizhibg"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+  			
+  			<TextView
+                android:id="@+id/tvWeixin"
+                android:singleLine="true"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:drawableLeft="@drawable/logo_wechat"
+                android:background="@color/md_yellow_700"
+                android:gravity="center"
+                android:text="微信登录"
+                android:textColor="@color/main_white"
+                android:textSize="18dp" />
+  
+            <TextView
+                android:id="@+id/tvWeibo"
+                android:singleLine="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:background="@color/md_red_300"
+                android:drawableLeft="@drawable/logo_sinaweibo"
+                android:gravity="center"
+                android:text="新浪微博登录"
+                android:textColor="@color/main_white"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tvQq"
+                android:singleLine="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:background="@color/md_blue_300"
+                android:drawableLeft="@drawable/logo_qq"
+                android:gravity="center"
+                android:text="QQ空间登录"
+                android:textColor="@color/main_white"
+                android:textSize="18dp" />
+
+            <Button
+                android:id="@+id/exitLogin"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="退出登录"
+                android:textColor="@color/main_black"
+                android:textSize="16dp"
+                android:background="@drawable/btn_ok_selector" />
+            
+        </LinearLayout>
+        
+    </ScrollView>
+
+</RelativeLayout>

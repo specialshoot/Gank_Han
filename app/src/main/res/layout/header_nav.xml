@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/head_layout"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/actionbar_day"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.example.hanzh.gankio_han.view.CircleImageView
+        android:id="@+id/id_header_face"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:src="@drawable/gitman"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#222222"/>
+
+    <TextView
+        android:id="@+id/id_header_authorname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/white"
+        android:text="请点击头像登录"
+        android:textSize="16sp" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/id_header_note"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="请点击头像登录"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textSize="18sp" />-->
+
+
+</LinearLayout>

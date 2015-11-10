@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">GankIO</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_save">保存</string>
+    <string name="action_share">分享</string>
+    <string name="action_refresh">刷新</string>
+    <string name="action_reload">重载</string>
+    <string name="action_openurl">打开</string>
+    <string name="action_stop">停止</string>
+    <string name="action_choose">选择</string>
+    <string name="loading">加载中&#8230;</string>
+    <string name="open">打开</string>
+    <string name="close">关闭</string>
+    <string name="today_topic">今日话题</string>
+    <string name="design">GankIO Design By Han</string>
+    <string name="action_github_trending">GitHub trending</string>
+    <string name="url_github_trending">https://github.com/trending</string>
+    <string name="item_clicked">item clicked！</string>
+    <string name="item_longclicked">item long clicked！</string>
+    <string name="url_gank_io">http://gank.io/</string>
+    <string name="questionmark">\?</string>
+    <string name="dash">&#160;-&#160;</string>
+    <string name="na">N/A</string>
+    <string name="du">°</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_picture_activitty">PictureActivitty</string>
+    <string name="title_activity_web">WebActivity</string>
+    <string name="title_activity_toady">ToadyActivity</string>
+    <string name="title_activity_video">VideoActivity</string>
+    <string name="title_activity_base">BaseActivity</string>
+
+    <!--CustomDialog-->
+    <string name="title_alert">提示信息</string>
+    <string name="title_about">关于</string>
+    <string name="ok_dialog">确定</string>
+    <string name="contact_me">联系我</string>
+    <string name="pay">打赏</string>
+    <string name="cancel_dialog">取消</string>
+
+    <string name="i_want_to_talk">不要把春春年华荒废在写代码上！！！多看漂亮妹子能增寿！！！我一定会加倍努力，做出其它难用的软件！！！如果您觉得我的软件写的不错(或者难用)，有意支持打赏，可以点击下面的按钮扫描其中二维码，赏钱您来定，谢谢^_^</string>
+    <string name="title_activity_contact">ContactActivity</string>
+
+    <!--sharedemo-->
+    <string name="tpl_girl">女</string>
+    <string name="tpl_boy">男</string>
+    <string name="tpl_change_user_name_title">更改名字</string>
+    <string name="tpl_change_user_note_title">更改备注</string>
+    <string name="tpl_input_user_name_hint">好名字可以让你的朋友更容易记住你</string>
+    <string name="tpl_input_user_note_hint">自定义备注信息，给你带来更多吸引</string>
+    <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_focus_city">FocusCityActivity</string>
+</resources>
