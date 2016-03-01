@@ -5,8 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class HelloActivity extends Activity {
 
@@ -25,17 +32,17 @@ public class HelloActivity extends Activity {
         isFirst();
     }
 
-    public void isFirst(){
+    public void isFirst() {
 
-        preferences = getSharedPreferences("count",MODE_PRIVATE);
+        preferences = getSharedPreferences("count", MODE_PRIVATE);
         int count = preferences.getInt("count", 0);
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
         if (count == 0) {
             //延迟两秒后执行run方法中的页面跳转
@@ -48,9 +55,8 @@ public class HelloActivity extends Activity {
                     startActivity(intent);
                     HelloActivity.this.finish();
                 }
-            }, 2000);
-        }
-        else{
+            }, 1000);
+        } else {
             new Handler().postDelayed(new Runnable() {
 
                 @Override
@@ -59,10 +65,21 @@ public class HelloActivity extends Activity {
                     startActivity(intent);
                     HelloActivity.this.finish();
                 }
-            }, 2000);
+            }, 1000);
         }
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("count", ++count);//存入数据
         editor.commit(); //提交修改
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
     }
 }

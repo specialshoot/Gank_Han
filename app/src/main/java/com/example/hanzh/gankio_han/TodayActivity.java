@@ -52,7 +52,7 @@ public class TodayActivity extends AppCompatActivity implements DatePickerDialog
     private GankListAdapter mAdapter;
     private int year, month, day;
     //每日数据格式http://gank.avosapps.com/api/day/年/月/日
-    private static final String mUrlHead = "http://gank.avosapps.com/api/day/";
+    private static final String mUrlHead = "http://gank.io/api/day/";
     private String mUrl;    //获取数据的Url
     private String mVideoPreviewUrl;    //Video的Url
     private String mPictureUrl;
@@ -90,11 +90,12 @@ public class TodayActivity extends AppCompatActivity implements DatePickerDialog
     }
 
     @OnClick(R.id.today_fab)
-    void today_fab_click(){
+    void today_fab_click() {
         TodayActivity.this.finish();
     }
+
     @OnClick(R.id.header_appbar)
-    void header_appbar_click(){
+    void header_appbar_click() {
         if (kong == false) {
             Intent intent = new Intent();
             intent.setClass(TodayActivity.this, VideoActivity.class);
@@ -267,7 +268,7 @@ public class TodayActivity extends AppCompatActivity implements DatePickerDialog
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(url);
         // text是分享文本，所有平台都需要这个字段
-        oks.setText(title+" : "+url+"\n通过" + this.getString(R.string.design) + "发布");
+        oks.setText(title + " : " + url + "\n通过" + this.getString(R.string.design) + "发布");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用

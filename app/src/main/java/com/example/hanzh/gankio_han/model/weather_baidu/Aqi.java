@@ -16,7 +16,7 @@ public class Aqi {
         this.city = city;
     }
 
-    public class City{
+    public class City {
         public int aqi;
         public int co;
         public int no2;

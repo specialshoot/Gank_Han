@@ -12,6 +12,7 @@
     <string name="open">打开</string>
     <string name="close">关闭</string>
     <string name="today_topic">今日话题</string>
+    <string name="add_favor">加入常用城市</string>
     <string name="design">GankIO Design By Han</string>
     <string name="action_github_trending">GitHub trending</string>
     <string name="url_github_trending">https://github.com/trending</string>
@@ -23,7 +24,7 @@
     <string name="na">N/A</string>
     <string name="du">°</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_picture_activitty">PictureActivitty</string>
     <string name="title_activity_web">WebActivity</string>
@@ -51,4 +52,5 @@
     <string name="tpl_input_user_note_hint">自定义备注信息，给你带来更多吸引</string>
     <string name="title_activity_setting">SettingActivity</string>
     <string name="title_activity_focus_city">FocusCityActivity</string>
+    <string name="title_activity_choose_city">ChooseCity</string>
 </resources>

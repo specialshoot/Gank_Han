@@ -2,25 +2,33 @@ package com.example.hanzh.gankio_han.model;
 
 import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.NotNull;
+import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.annotation.Table;
 import com.litesuits.orm.db.annotation.Unique;
+import com.litesuits.orm.db.enums.AssignType;
 
 /**
  * Created by hanzh on 2015/10/6.
  */
-@Table("ganktable") public class Gank extends Soul {
+@Table("ganktable") public class Gank {
 
+    @PrimaryKey(AssignType.BY_MYSELF) @Column("_id") protected String _id;
     @Column("who") private String who;
+    @Column("_ns") private String _ns;
     @Column("publishedAt") private String publishedAt;
     @Column("desc") private String desc;
     @Column("type") private String type;
     @Column("url") private String url;
     @Column("used") private boolean used;
-    @NotNull
-    @Unique
-    @Column("objectId") private String objectId;
-    @Column("createAt") private String createdAt;
-    @Column("updateAt") private String updatedAt;
+    @Column("createdAt") private String createdAt;
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
 
     public String getWho() {
         return who;
@@ -28,6 +36,14 @@ import com.litesuits.orm.db.annotation.Unique;
 
     public void setWho(String who) {
         this.who = who;
+    }
+
+    public String get_ns() {
+        return _ns;
+    }
+
+    public void set_ns(String _ns) {
+        this._ns = _ns;
     }
 
     public String getPublishedAt() {
@@ -70,14 +86,6 @@ import com.litesuits.orm.db.annotation.Unique;
         this.used = used;
     }
 
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
-
     public String getCreatedAt() {
         return createdAt;
     }
@@ -86,26 +94,18 @@ import com.litesuits.orm.db.annotation.Unique;
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public String toString() {
         return "Gank{" +
-                "who='" + who + '\'' +
+                "_id='" + _id + '\'' +
+                ", who='" + who + '\'' +
+                ", _ns='" + _ns + '\'' +
                 ", publishedAt='" + publishedAt + '\'' +
                 ", desc='" + desc + '\'' +
                 ", type='" + type + '\'' +
                 ", url='" + url + '\'' +
                 ", used=" + used +
-                ", objectId='" + objectId + '\'' +
                 ", createdAt='" + createdAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
                 '}';
     }
 }

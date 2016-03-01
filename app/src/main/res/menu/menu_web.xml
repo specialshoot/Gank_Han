@@ -5,22 +5,23 @@
     tools:context=".WebActivity">
     <item
         android:id="@+id/web_action_reload"
-        android:title="@string/action_reload"
-        android:orderInCategory="80"
         android:icon="@android:drawable/ic_menu_rotate"
+        android:orderInCategory="80"
+        android:title="@string/action_reload"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/web_action_openurl"
-        android:title="@string/action_openurl"
-        android:orderInCategory="80"
         android:icon="@android:drawable/ic_menu_set_as"
+        android:orderInCategory="80"
+        android:title="@string/action_openurl"
         app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/web_action_stop"
-        android:title="@string/action_stop"
-        android:orderInCategory="80"
+    <item
+        android:id="@+id/web_action_stop"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:orderInCategory="80"
+        android:title="@string/action_stop"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -8,7 +8,7 @@
     android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.hanzh.gankio_han.TodayActivity"
-    tools:showIn="@layout/activity_toady">
+    tools:showIn="@layout/activity_today">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cl_content"

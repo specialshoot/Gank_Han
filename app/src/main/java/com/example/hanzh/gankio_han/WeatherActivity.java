@@ -1,16 +1,15 @@
 package com.example.hanzh.gankio_han;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,27 +25,21 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
-import com.example.hanzh.gankio_han.model.citys;
-import com.example.hanzh.gankio_han.model.provinces;
 import com.example.hanzh.gankio_han.model.weather_baidu.HeWeather;
 import com.example.hanzh.gankio_han.model.weather_baidu.HeWeatherData;
 import com.example.hanzh.gankio_han.utils.NetUtils;
+import com.example.hanzh.gankio_han.utils.SPCurrentCityUtils;
 import com.example.hanzh.gankio_han.utils.SPUtils;
 import com.example.hanzh.gankio_han.utils.ToastUtils;
 import com.google.gson.Gson;
-import com.litesuits.orm.db.assit.QueryBuilder;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,12 +47,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
-import cn.sharesdk.sina.weibo.SinaWeibo;
-import cn.sharesdk.tencent.qq.QQ;
-import cn.sharesdk.tencent.qzone.QZone;
 
 public class WeatherActivity extends AppCompatActivity {
 
@@ -77,8 +64,6 @@ public class WeatherActivity extends AppCompatActivity {
     TextView lastUpdate;
     @Bind(R.id.weather_refresh)
     ImageView weather_refresh;
-    @Bind(R.id.share_weather)
-    ImageView share_weather;
 
     //今日
     @Bind(R.id.today_weather_date)
@@ -170,8 +155,7 @@ public class WeatherActivity extends AppCompatActivity {
     //关于定位
     private LocationClient mLocationClient = null;
     private BDLocationListener BaiduLocationListener = new MyLocationListener();
-
-    private String pic_path_name = "/sdcard/weather.png";
+    public SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,6 +173,8 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     private void initViewAction() {
+        prefs = getSharedPreferences("current_city", MODE_PRIVATE);
+        prefs.registerOnSharedPreferenceChangeListener(prefsListener);
         initMap();
         if (!SPUtils.get(WeatherActivity.this, "weatherjson", "").equals("")) {
             jsonResult = (String) SPUtils.get(WeatherActivity.this, "weatherjson", "");
@@ -200,9 +186,14 @@ public class WeatherActivity extends AppCompatActivity {
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener(BaiduLocationListener);    //注册监听函数
         if (NetUtils.isConnected(WeatherActivity.this)) {
-            initLocation();
-            ToastUtils.showShort(WeatherActivity.this, "正在定位中...");
-            mLocationClient.start();//定位SDK start之后会默认发起一次定位请求，开发者无须判断isstart并主动调用request
+            String city = (String) SPCurrentCityUtils.get(this, ChooseCity.CURRENT_CITY_KEY, "");
+            if (city.equals("")) {
+                initLocation();
+                ToastUtils.showShort(WeatherActivity.this, "正在定位中...");
+                mLocationClient.start();//定位SDK start之后会默认发起一次定位请求，开发者无须判断isstart并主动调用request
+            } else {
+                inquireWeather(city);
+            }
         } else {
             ToastUtils.showShort(WeatherActivity.this, "网络断开,请检查网络");
         }
@@ -280,6 +271,12 @@ public class WeatherActivity extends AppCompatActivity {
         mLocationClient.setLocOption(option);
     }
 
+    @OnClick(R.id.choose_city)
+    void choose_city() {
+        Intent intent = new Intent(WeatherActivity.this, ChooseCity.class);
+        startActivity(intent);
+    }
+
     //百度定位BDLocationListener
     public class MyLocationListener implements BDLocationListener {
 
@@ -348,7 +345,7 @@ public class WeatherActivity extends AppCompatActivity {
                     sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
                 }
             }
-            Log.i("BaiduLocationApiDem", sb.toString());
+            Log.d("BaiduLocationApiDem", sb.toString());
             //error code处理
             switch (location.getLocType()) {
                 case 61:
@@ -405,16 +402,6 @@ public class WeatherActivity extends AppCompatActivity {
                 default:
                     break;
             }
-            if (location.getAddrStr().equals("")) {
-                if (SPUtils.get(WeatherActivity.this, "weathercity", "") != null && !(SPUtils.get(WeatherActivity.this, "weathercity", "").equals(""))) {
-                    cityTextView.setText((String) SPUtils.get(WeatherActivity.this, "weathercity", ""));
-                } else {
-                    cityTextView.setText("未知城市");
-                }
-            } else {
-                cityTextView.setText(location.getAddrStr());
-                SPUtils.put(WeatherActivity.this, "weathercity", location.getAddrStr());
-            }
             mLocationClient.stop();
             //在TextView上显示返回数据
             System.out.println("Location -> " + sb.toString());
@@ -423,10 +410,10 @@ public class WeatherActivity extends AppCompatActivity {
 
     //查询天气
     private void inquireWeather(String city) {
+        cityTextView.setText(city);
         if (city.charAt(city.length() - 1) == '市') {
             city = city.substring(0, city.length() - 1);
         }
-//        System.out.println("city : " + city);
         String encoderCity = "";
         try {
             encoderCity = URLEncoder.encode(city, "UTF-8");
@@ -533,22 +520,30 @@ public class WeatherActivity extends AppCompatActivity {
         fifth_weather_max.setText(data.getDaily_forecast().get(5).getTmp().max);
         fifth_weather_min.setText(data.getDaily_forecast().get(5).getTmp().min);
 
-        AQI_text.setText(data.getAqi().getCity().aqi + "");
-        PM25_text.setText(data.getAqi().getCity().pm25 + "");
-        PM10_text.setText(data.getAqi().getCity().pm10 + "");
-        NO2_text.setText(data.getAqi().getCity().no2 + "");
-        if (data.getAqi().getCity().aqi <= 50) {
-            air_quality.setText("优");
-        } else if (data.getAqi().getCity().aqi <= 100) {
-            air_quality.setText("良");
-        } else if (data.getAqi().getCity().aqi <= 150) {
-            air_quality.setText("轻度污染");
-        } else if (data.getAqi().getCity().aqi <= 200) {
-            air_quality.setText("中度污染");
-        } else if (data.getAqi().getCity().aqi <= 300) {
-            air_quality.setText("重度污染");
-        } else {
-            air_quality.setText("严重污染");
+        if(data.getAqi()!=null) {
+            AQI_text.setText(data.getAqi().getCity().aqi + "");
+            PM25_text.setText(data.getAqi().getCity().pm25 + "");
+            PM10_text.setText(data.getAqi().getCity().pm10 + "");
+            NO2_text.setText(data.getAqi().getCity().no2 + "");
+            if (data.getAqi().getCity().aqi <= 50) {
+                air_quality.setText("优");
+            } else if (data.getAqi().getCity().aqi <= 100) {
+                air_quality.setText("良");
+            } else if (data.getAqi().getCity().aqi <= 150) {
+                air_quality.setText("轻度污染");
+            } else if (data.getAqi().getCity().aqi <= 200) {
+                air_quality.setText("中度污染");
+            } else if (data.getAqi().getCity().aqi <= 300) {
+                air_quality.setText("重度污染");
+            } else {
+                air_quality.setText("严重污染");
+            }
+        }else{
+            AQI_text.setText("未知");
+            PM25_text.setText("未知");
+            PM10_text.setText("未知");
+            NO2_text.setText("未知");
+            air_quality.setText("未知");
         }
         try {
             weather_refresh.clearAnimation();
@@ -604,15 +599,20 @@ public class WeatherActivity extends AppCompatActivity {
         }
 
         if (NetUtils.isConnected(WeatherActivity.this)) {
-            //百度地图定位
-            if (mLocationClient.isStarted()) {
-                mLocationClient.stop();
+            String city = (String) SPCurrentCityUtils.get(this, ChooseCity.CURRENT_CITY_KEY, "");
+            if (city.equals("")) {
+                //百度地图定位
+                if (mLocationClient.isStarted()) {
+                    mLocationClient.stop();
+                }
+                mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+                mLocationClient.registerLocationListener(BaiduLocationListener);    //注册监听函数
+                initLocation();
+                ToastUtils.showShort(WeatherActivity.this, "正在定位中...");
+                mLocationClient.start();//定位SDK start之后会默认发起一次定位请求，开发者无须判断isstart并主动调用request
+            } else {
+                inquireWeather(city);
             }
-            mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-            mLocationClient.registerLocationListener(BaiduLocationListener);    //注册监听函数
-            initLocation();
-            ToastUtils.showShort(WeatherActivity.this, "正在定位中...");
-            mLocationClient.start();//定位SDK start之后会默认发起一次定位请求，开发者无须判断isstart并主动调用request
         } else {
             ToastUtils.showShort(WeatherActivity.this, "网络断开,请检查网络");
             try {
@@ -627,7 +627,7 @@ public class WeatherActivity extends AppCompatActivity {
      * 根据view来生成bitmap图片，可用于截图功能
      */
     public Bitmap getViewBitmap() {
-        ToastUtils.showShort(WeatherActivity.this,"正在保存截图");
+        ToastUtils.showShort(WeatherActivity.this, "正在保存截图");
         //获取状态栏高度
         Rect frame = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
@@ -636,7 +636,6 @@ public class WeatherActivity extends AppCompatActivity {
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
 
-//        share_weather.setClickable(false);
         View v = getWindow().getDecorView();
         v.clearFocus(); //
         v.setPressed(false); //
@@ -653,7 +652,7 @@ public class WeatherActivity extends AppCompatActivity {
         if (cacheBitmap == null) {
             return null;
         }
-        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap,0,statusBarHeight,width,height-statusBarHeight);
+        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap, 0, statusBarHeight, width, height - statusBarHeight);
         // Restore the view
         v.destroyDrawingCache();
         v.setWillNotCacheDrawing(willNotCache);
@@ -681,43 +680,6 @@ public class WeatherActivity extends AppCompatActivity {
             ToastUtils.showShort(WeatherActivity.this, "保存截图失败");
         }
         return false;
-     }
-
-    @OnClick(R.id.share_weather)
-    void share_weather(){
-        share_weather.setClickable(false);
-        saveFile(getViewBitmap(), pic_path_name);
-        share_weather.setClickable(true);
-        showShare("https://github.com/specialshoot","我的天气情况,通过GankIO Design By Han发布");
-    }
-
-    private void showShare(String url, String title) {
-        ShareSDK.initSDK(this);
-        OnekeyShare oks = new OnekeyShare();
-        //关闭sso授权
-        oks.disableSSOWhenAuthorize();
-
-        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
-        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(title);
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl(url);
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText(title);
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath(pic_path_name);//确保SDcard下面存在此张图片
-        // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl(url);
-        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("测试GankIO Design By Han");
-        // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(getString(R.string.app_name));
-        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl(url);
-
-        // 启动分享GUI
-        oks.show(this);
     }
 
     @Override
@@ -728,4 +690,29 @@ public class WeatherActivity extends AppCompatActivity {
         return true;
     }
 
+    private SharedPreferences.OnSharedPreferenceChangeListener prefsListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            System.out.println("进入onSharedPreferenceChanged");
+            if (key.equals(ChooseCity.CURRENT_CITY_KEY)) {
+                System.out.println("进入onSharedPreferenceChanged,Key=CURRENT_CITY_KEY");
+                String city = (String) SPCurrentCityUtils.get(WeatherActivity.this, key, "");
+                System.out.println("current city -> " + city);
+                inquireWeather(city);
+            }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).registerOnSharedPreferenceChangeListener(prefsListener);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).unregisterOnSharedPreferenceChangeListener(prefsListener);
+        super.onPause();
+    }
 }

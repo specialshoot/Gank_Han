@@ -40,7 +40,6 @@ public class WhatsNew extends Activity {
         viewPictures=(ViewGroup)inflater.inflate(R.layout.viewpagers, null); //viewPictures是装显示图片的viewgroup
         viewPager=(ViewPager)viewPictures.findViewById(R.id.guidePagers);   //viewPager是一个ViewPager控件
         viewPoints=(ViewGroup)viewPictures.findViewById(R.id.viewPoints);   //导航小圆点的viewPager
-
         //添加小圆点导航的图片
         for(int i=0;i<pageViews.size();i++){
             imageView=new ImageView(WhatsNew.this);
@@ -59,7 +58,7 @@ public class WhatsNew extends Activity {
         setContentView(viewPictures);
 
         viewPager.setAdapter(new NavigationPageAdapter());
-        viewPager.setOnPageChangeListener(new NavigationPageChangeListener());
+        viewPager.addOnPageChangeListener(new NavigationPageChangeListener());
     }
     // 导航图片view的适配器，必须要实现的是下面四个方法
     class NavigationPageAdapter extends PagerAdapter {
@@ -74,15 +73,25 @@ public class WhatsNew extends Activity {
         }
 
         // 初始化每个Item
+//        @Override
+//        public Object instantiateItem(View container, int position) {
+//            ((ViewPager) container).addView(pageViews.get(position));
+//            return pageViews.get(position);
+//        }
         @Override
-        public Object instantiateItem(View container, int position) {
+        public Object instantiateItem(ViewGroup container, int position) {
             ((ViewPager) container).addView(pageViews.get(position));
             return pageViews.get(position);
         }
 
         // 销毁每个Item
+//        @Override
+//        public void destroyItem(View container, int position, Object object) {
+//            ((ViewPager) container).removeView(pageViews.get(position));
+//        }
+
         @Override
-        public void destroyItem(View container, int position, Object object) {
+        public void destroyItem(ViewGroup container, int position, Object object) {
             ((ViewPager) container).removeView(pageViews.get(position));
         }
     }

@@ -4,7 +4,7 @@
 
     <!-- 填充的颜色：这里设置背景透明 -->
     <solid android:color="@color/transparent" />
-    <!-- 边框的颜色 ：不能和窗口背景色一样-->
+    <!-- 边框的颜色 -->
     <stroke
         android:width="2dp"
         android:color="#000000" />

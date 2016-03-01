@@ -24,14 +24,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.baidu.ops.appunion.sdk.AppUnionSDK;
 import com.example.hanzh.gankio_han.utils.BrightnessUtils;
 import com.example.hanzh.gankio_han.utils.SPUtils;
 import com.example.hanzh.gankio_han.utils.SnackbarUtil;
@@ -60,11 +59,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -123,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppUnionSDK.getInstance(this).initSdk();    //广告模块初始化
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
@@ -245,8 +246,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         newOpts.inSampleSize = be;// 设置采样率
 
         newOpts.inPreferredConfig = Bitmap.Config.ARGB_8888;// 该模式是默认的,可不设
-        newOpts.inPurgeable = true;// 同时设置才会有效
-        newOpts.inInputShareable = true;// 。当系统内存不够时候图片自动被回收
+        newOpts.inPurgeable = true;//同时设置才会有效
+        newOpts.inInputShareable = true;//当系统内存不够时候图片自动被回收
 
         bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
         // return compressBmpFromBmp(bitmap);//原来的方法调用了这个方法企图进行二次压缩
@@ -373,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                         showAlertDialog();
                         break;
                     case R.id.nav_menu_ad:
-                        AppUnionSDK.getInstance(MainActivity.this).showAppList();
+                        ToastUtils.showShort(MainActivity.this,"没有广告,百度无良企业,国内用不了google,用bing也好啊");
                         break;
                 }
 
@@ -670,7 +671,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     protected void onDestroy() {
-        AppUnionSDK.getInstance(this).quitSdk();
         unregisterReceiver(netReceiver);
         super.onDestroy();
     }
@@ -688,6 +688,17 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
     }
 
     private void showShare(String url, String title) {

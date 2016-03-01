@@ -110,7 +110,7 @@ public class CustomDialogPay extends Dialog {
             final CustomDialogPay dialog = new CustomDialogPay(context, R.style.Dialog);
             View layout = inflater.inflate(R.layout.dialog_pay, null);
             dialog.addContentView(layout, new LayoutParams(
-                    LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+                    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             // set the dialog title
             ((TextView) layout.findViewById(R.id.title_pay)).setText(title);
 

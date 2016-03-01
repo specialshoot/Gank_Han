@@ -54,16 +54,16 @@ public class OthersFragment extends Fragment {
         flag = (int) getArguments().get("flag");
         switch (flag) {
             case IOS:
-                url = "http://gank.avosapps.com/api/data/iOS/40/1";
+                url = "http://gank.io/api/data/iOS/40/1";
                 break;
             case ANDROID:
-                url = "http://gank.avosapps.com/api/data/Android/40/1";
+                url = "http://gank.io/api/data/Android/40/1";
                 break;
             case TUIJIAN:
-                url = "http://gank.avosapps.com/api/data/瞎推荐/40/1";
+                url = "http://gank.io/api/data/瞎推荐/40/1";
                 break;
             case ZIYUAN:
-                url = "http://gank.avosapps.com/api/data/拓展资源/40/1";
+                url = "http://gank.io/api/data/拓展资源/40/1";
                 break;
         }
     }
@@ -126,9 +126,9 @@ public class OthersFragment extends Fragment {
                                                     @Override
                                                     public void run() {
                                                         ToastUtils.showShort(getActivity(), "网络错误");
+                                                        ptrFrame.refreshComplete();
                                                     }
                                                 });
-                                                ptrFrame.refreshComplete();
                                                 e.printStackTrace();
                                             }
 

@@ -1,12 +1,14 @@
 package com.example.hanzh.gankio_han.fragment;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +41,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 
 public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.OnItemClickListener {
 
+    private static String TAG="fenlei";
     private static final int TOPDATA = 0;   //数据顶端
     private static final int BOTTOMDATA = 1;    //数据底端
     private static final int PRELOAD_SIZE = 2;
@@ -55,8 +58,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
     //private RecyclerView.LayoutManager mLayoutManager;
     private static final int SPAN_COUNT = 2;    //两列
     private CategoricalData meizhiData;
-    //分类数据URL:http://gank.avosapps.com/api/data/数据类型/请求个数/第几页
-    private static final String staticUrl = "http://gank.avosapps.com/api/data/福利/10/";
+    private static final String staticUrl = "http://gank.io/api/data/福利/10/";
     private String url = "";
     private List<Gank> mGankList;
 
@@ -78,7 +80,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
 
         mGankList = new ArrayList<>();
         ArrayList<Gank> temp = App.sDb.query(query);
-        System.out.println("有" + temp.size() + "条数据");
+        Log.v(TAG,"有" + temp.size() + "条数据");
         mGankList.addAll(temp);
         mView = inflater.inflate(R.layout.fragment_fenlei, container, false);
         ButterKnife.bind(this, mView);
@@ -155,8 +157,8 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
                 intent.setClass(getActivity(), PictureActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("Url", gank.getUrl());
-                bundle.putString("Desc", gank.getPublishedAt() + " Provided By " + gank.getWho());
-                bundle.putString("PicId", gank.getObjectId());
+                bundle.putString("Desc", " Provided By " + gank.getWho());
+                bundle.putString("PicId", gank.getPublishedAt());
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -173,7 +175,8 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
     }
 
     private void saveGanks(List<Gank> ganks) {
-        App.sDb.insert(ganks, ConflictAlgorithm.Ignore);
+        //App.sDb.insert(ganks, ConflictAlgorithm.Abort);
+        App.sDb.save(ganks);
     }
 
     private void getFenLeiFromOrm(List<Gank> ganks) {
@@ -223,7 +226,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
                                 ptrFrame.refreshComplete();
                             }
                         });
-                        System.out.println("no data error");
+                        Log.v(TAG,"no data error");
                     } else {
                         if (data.getResults().size() == 0) {
                             getActivity().runOnUiThread(new Runnable() {
@@ -233,7 +236,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
                                     ptrFrame.refreshComplete();
                                 }
                             });
-                            System.out.println("no data error");
+                            Log.v(TAG,"no data error");
                         } else {
                             meizhiData = data;
                             for (int i = 0; i < data.getResults().size(); i++) {
@@ -258,6 +261,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
                                                         saveGanks(listOnce);
                                                         QueryBuilder query = new QueryBuilder(Gank.class).appendOrderDescBy("publishedAt");
                                                         listOnce = App.sDb.query(query);
+                                                        Log.v(TAG,"listOnce -> "+listOnce.toString());
                                                         getFenLeiFromOrm(listOnce);
                                                         listOnce.clear();
                                                     } else {
@@ -267,10 +271,10 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
 
                                                             QueryBuilder qb = new QueryBuilder(Gank.class)
                                                                     .columns(new String[]{"_id"})
-                                                                    .where("objectId = ?", new String[]{meizhiData.getResults().get(i).getObjectId()});
+                                                                    .where("url = ?", new String[]{meizhiData.getResults().get(i).getUrl()});
                                                             long count = App.sDb.queryCount(qb);
                                                             if (count > 0) {
-                                                                System.out.println("已经存在第" + i + "个");
+                                                                Log.v(TAG,"已经存在第" + i + "个");
                                                             } else {
                                                                 newAdd++;
                                                                 switch (DATA) {

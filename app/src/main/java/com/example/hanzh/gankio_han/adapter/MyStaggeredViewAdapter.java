@@ -9,10 +9,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.example.hanzh.gankio_han.App;
 import com.example.hanzh.gankio_han.R;
 import com.example.hanzh.gankio_han.model.Gank;
-import com.litesuits.orm.db.assit.QueryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +92,7 @@ public class MyStaggeredViewAdapter extends RecyclerView.Adapter<MyStaggeredView
         }
 
         try {
-            holder.mTextView.setText(ganks.get(position).getUpdatedAt() + " Provided by " + ganks.get(position).getWho());
+            holder.mTextView.setText(ganks.get(position).getCreatedAt().substring(0,10) + " 由" + ganks.get(position).getWho()+"提供");
             Glide.with(mContext).load(ganks.get(position).getUrl()).centerCrop().into(holder.mImageView).getSize(
                     new SizeReadyCallback() {
 
