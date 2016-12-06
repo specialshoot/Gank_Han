@@ -21,7 +21,7 @@ import java.util.List;
 public class MyStaggeredViewAdapter extends RecyclerView.Adapter<MyStaggeredViewHolder> {
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position,Gank gank);
+        void onItemClick(View view, int position, Gank gank);
 
         void onItemLongClick(View view, int position);
     }
@@ -40,7 +40,7 @@ public class MyStaggeredViewAdapter extends RecyclerView.Adapter<MyStaggeredView
     public MyStaggeredViewAdapter(Context mContext) {
         this.mContext = mContext;
         mLayoutInflater = LayoutInflater.from(mContext);
-        ganks=new ArrayList<>();
+        ganks = new ArrayList<>();
     }
 
     /**
@@ -62,14 +62,14 @@ public class MyStaggeredViewAdapter extends RecyclerView.Adapter<MyStaggeredView
             holder.mTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickListener.onItemClick(holder.mTextView, position,ganks.get(position));
+                    mOnItemClickListener.onItemClick(holder.mTextView, position, ganks.get(position));
                 }
             });
 
             holder.mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickListener.onItemClick(holder.mImageView, position,ganks.get(position));
+                    mOnItemClickListener.onItemClick(holder.mImageView, position, ganks.get(position));
                 }
             });
 
@@ -88,22 +88,22 @@ public class MyStaggeredViewAdapter extends RecyclerView.Adapter<MyStaggeredView
                     return true;
                 }
             });
-
         }
 
         try {
-            holder.mTextView.setText(ganks.get(position).getCreatedAt().substring(0,10) + " 由" + ganks.get(position).getWho()+"提供");
-            Glide.with(mContext).load(ganks.get(position).getUrl()).centerCrop().into(holder.mImageView).getSize(
+            Glide.with(mContext).load(ganks.get(position).getUrl()).placeholder(R.drawable.ssdk_recomm_def_ad_image).error(android.R.drawable.stat_notify_error).centerCrop().into(holder.mImageView).getSize(
                     new SizeReadyCallback() {
 
                         @Override
                         public void onSizeReady(int width, int height) {
-                            if (!holder.meizhitu.isShown())
+                            if (!holder.meizhitu.isShown()) {
                                 holder.meizhitu.setVisibility(View.VISIBLE);
+                                holder.mTextView.setText(ganks.get(position).getCreatedAt().substring(0, 10) + " 由" + ganks.get(position).getWho() + "提供");
+                            }
                         }
                     }
             );
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(mContext, "未能找到数据", Toast.LENGTH_SHORT).show();
         }

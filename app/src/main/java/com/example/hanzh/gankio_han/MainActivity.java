@@ -137,9 +137,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(netReceiver, filter);
-        netReceiver.setNetListener(this);
+        netReceiver.setNetListener(this);//注册网络监听
         sp = getSharedPreferences(FILE_NAME, Activity.MODE_PRIVATE);
-        sp.registerOnSharedPreferenceChangeListener(myListener);
+        sp.registerOnSharedPreferenceChangeListener(myListener);    //监听SharedPreference改变
     }
 
     private void initData() {
@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public boolean isNetConnect(boolean isConnect) {
-        if (isConnect == true) {
+        if (isConnect) {
             ToastUtils.showShort(MainActivity.this, "网络已连接");
         } else {
             ToastUtils.showShort(MainActivity.this, "网络断开,请检查网络");

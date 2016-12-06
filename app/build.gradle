@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    buildToolsVersion '23.0.3'
 
     defaultConfig {
         applicationId "com.example.hanzh.gankio_han"
@@ -17,7 +17,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -35,9 +34,6 @@ dependencies {
     compile 'com.github.wangjiegulu:AndroidInject:1.0.6'
     compile 'com.github.wangjiegulu:AndroidBucket:1.0.4'
     compile 'com.github.wangjiegulu:RapidFloatingActionButton:1.0.3'
-    //开源的网络进度条
-
-    // Because RxAndroid releases are few and far between, it is recommended you also
 
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     compile 'io.reactivex:rxjava:1.0.14'

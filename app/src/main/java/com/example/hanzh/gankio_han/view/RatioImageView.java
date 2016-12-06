@@ -33,7 +33,6 @@ public class RatioImageView extends ImageView {
         this.originalHeight = originalHeight;
     }
 
-
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (originalWidth > 0 && originalHeight > 0) {
             float ratio = (float) originalWidth / (float) originalHeight;

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/id_cardview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:clickable="true"
     app:cardBackgroundColor="@color/main_white"
@@ -15,24 +15,25 @@
     <RelativeLayout
         android:id="@+id/meizhi_card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.example.hanzh.gankio_han.view.RatioImageView
             android:id="@+id/iv_meizhi"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />
 
         <TextView
-            android:background="@drawable/textshape"
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:text="2016-02-06 由。。。tigong"
+            android:background="@drawable/textshape"
+            android:gravity="center"
+            android:text="2016-02-06 由。。。提供"
             android:textSize="12sp" />
 
     </RelativeLayout>

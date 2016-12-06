@@ -41,7 +41,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 
 public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.OnItemClickListener {
 
-    private static String TAG="fenlei";
+    private static String TAG = "fenlei";
     private static final int TOPDATA = 0;   //数据顶端
     private static final int BOTTOMDATA = 1;    //数据底端
     private static final int PRELOAD_SIZE = 2;
@@ -80,7 +80,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
 
         mGankList = new ArrayList<>();
         ArrayList<Gank> temp = App.sDb.query(query);
-        Log.v(TAG,"有" + temp.size() + "条数据");
+        Log.v(TAG, "有" + temp.size() + "条数据");
         mGankList.addAll(temp);
         mView = inflater.inflate(R.layout.fragment_fenlei, container, false);
         ButterKnife.bind(this, mView);
@@ -226,7 +226,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
                                 ptrFrame.refreshComplete();
                             }
                         });
-                        Log.v(TAG,"no data error");
+                        Log.v(TAG, "no data error");
                     } else {
                         if (data.getResults().size() == 0) {
                             getActivity().runOnUiThread(new Runnable() {
@@ -236,7 +236,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
                                     ptrFrame.refreshComplete();
                                 }
                             });
-                            Log.v(TAG,"no data error");
+                            Log.v(TAG, "no data error");
                         } else {
                             meizhiData = data;
                             for (int i = 0; i < data.getResults().size(); i++) {
@@ -261,7 +261,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
                                                         saveGanks(listOnce);
                                                         QueryBuilder query = new QueryBuilder(Gank.class).appendOrderDescBy("publishedAt");
                                                         listOnce = App.sDb.query(query);
-                                                        Log.v(TAG,"listOnce -> "+listOnce.toString());
+                                                        Log.v(TAG, "listOnce -> " + listOnce.toString());
                                                         getFenLeiFromOrm(listOnce);
                                                         listOnce.clear();
                                                     } else {
@@ -274,7 +274,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
                                                                     .where("url = ?", new String[]{meizhiData.getResults().get(i).getUrl()});
                                                             long count = App.sDb.queryCount(qb);
                                                             if (count > 0) {
-                                                                Log.v(TAG,"已经存在第" + i + "个");
+                                                                Log.v(TAG, "已经存在第" + i + "个");
                                                             } else {
                                                                 newAdd++;
                                                                 switch (DATA) {

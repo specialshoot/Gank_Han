@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -28,6 +30,8 @@ import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.example.hanzh.gankio_han.utils.ToastUtils;
 
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
@@ -117,6 +121,27 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
                     mWebView.goBack();
                 }
                 else {
+                    //下面的操作是为了防止webVIew中ZoomButtonsController崩溃,有可能出现这种情况
+//                    if(mWebView != null) {
+//                        mWebView.getSettings().setBuiltInZoomControls(true);
+//                        mWebView.setVisibility(View.GONE);
+//                        long timeout = ViewConfiguration.getZoomControlsTimeout();//timeout ==3000
+//                        Log.i("time==",timeout+"");
+//                        new Timer().schedule(new TimerTask() {
+//                            @Override
+//                            public void run() {
+//                                // TODO Auto-generated method stub
+//                                runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        mWebView.destroy();//所有webview操作必须在同一线程
+//                                    }
+//                                });
+//                            }
+//                        }, timeout);
+//                    }
+                    ViewGroup view = (ViewGroup) getWindow().getDecorView();
+                    view.removeAllViews();
                     WebActivity.this.finish();
                 }
                 break;

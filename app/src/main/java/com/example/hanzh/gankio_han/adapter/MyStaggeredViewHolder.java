@@ -15,12 +15,14 @@ public class MyStaggeredViewHolder extends RecyclerView.ViewHolder {
 
     public TextView mTextView;
     public RatioImageView mImageView;
+//    public ImageView mImageView;
     public View meizhitu;
 
     public MyStaggeredViewHolder(View itemView) {
         super(itemView);
         mTextView = (TextView) itemView.findViewById(R.id.tv_title);
         mImageView=(RatioImageView) itemView.findViewById(R.id.iv_meizhi);
+//        mImageView=(ImageView) itemView.findViewById(R.id.iv_meizhi);
         mImageView.setOriginalSize(50,50);
         meizhitu=itemView;
     }

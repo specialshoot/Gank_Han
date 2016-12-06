@@ -45,8 +45,8 @@ public class GankListAdapter extends AnimRecyclerViewAdapter<GankListAdapter.Vie
     public List<Gank> mGankList;
 
     public GankListAdapter(Context context) {
-        this.context=context;
-        mGankList=new ArrayList<>();
+        this.context = context;
+        mGankList = new ArrayList<>();
     }
 
     @Override
@@ -60,14 +60,12 @@ public class GankListAdapter extends AnimRecyclerViewAdapter<GankListAdapter.Vie
         Gank gank = mGankList.get(position);
         if (position == 0) {
             showCategory(holder);
-        }
-        else {
+        } else {
             boolean theCategoryOfLastEqualsToThis =
                     mGankList.get(position - 1).getType().equals(mGankList.get(position).getType());
             if (!theCategoryOfLastEqualsToThis) {
                 showCategory(holder);
-            }
-            else {
+            } else {
                 hideCategory(holder);
             }
         }
@@ -105,8 +103,8 @@ public class GankListAdapter extends AnimRecyclerViewAdapter<GankListAdapter.Vie
 
         public ViewHolder(View itemView) {
             super(itemView);
-            category=(TextView)itemView.findViewById(R.id.tv_category);
-            gank=(TextView)itemView.findViewById(R.id.tv_title);
+            category = (TextView) itemView.findViewById(R.id.tv_category);
+            gank = (TextView) itemView.findViewById(R.id.tv_title);
             gank.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
