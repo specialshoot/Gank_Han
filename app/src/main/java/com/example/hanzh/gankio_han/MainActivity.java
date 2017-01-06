@@ -63,7 +63,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
@@ -83,28 +83,28 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private String mSaveMessage;    //保存图片成功或失败文字
     public static final int CLEAR = 123;
 
-    @Bind(R.id.container_main)
+    @BindView(R.id.container_main)
     CoordinatorLayout container_main;
-    @Bind(R.id.id_navigationview)
+    @BindView(R.id.id_navigationview)
     NavigationView id_navigationview;
-    @Bind(R.id.id_drawerlayout)
+    @BindView(R.id.id_drawerlayout)
     DrawerLayout mDrawerLayout;
-    @Bind(R.id.id_toolbar)
+    @BindView(R.id.id_toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.id_tablayout)
+    @BindView(R.id.id_tablayout)
     TabLayout mTabLayout;
-    @Bind(R.id.id_viewpager)
+    @BindView(R.id.id_viewpager)
     ViewPager mViewPager;
-    @Bind(R.id.activity_main_rfal)
+    @BindView(R.id.activity_main_rfal)
     RapidFloatingActionLayout rfaLayout;
-    @Bind(R.id.activity_main_rfab)
+    @BindView(R.id.activity_main_rfab)
     RapidFloatingActionButton rfaButton;
     private RapidFloatingActionHelper rfabHelper;
-    @Bind(R.id.head_layout)
+    @BindView(R.id.head_layout)
     View head_layout;
-    @Bind(R.id.id_header_face)
+    @BindView(R.id.id_header_face)
     CircleImageView headicon;
-    @Bind(R.id.id_header_authorname)
+    @BindView(R.id.id_header_authorname)
     TextView authorname;
     // TabLayout中的tab标题
     private String[] mTitles;

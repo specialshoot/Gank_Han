@@ -100,6 +100,7 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
         settings.setUseWideViewPort(true);
         mWebView.setWebChromeClient(chromeClient);
         mWebView.setWebViewClient(new LoveClient());
+        mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         mWebView.loadUrl(mUrl);
     }
 

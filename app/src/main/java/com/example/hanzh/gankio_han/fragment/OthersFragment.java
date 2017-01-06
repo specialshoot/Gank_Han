@@ -24,7 +24,7 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -33,9 +33,9 @@ import in.srain.cube.views.ptr.PtrHandler;
 
 public class OthersFragment extends Fragment {
 
-    @Bind(R.id.other_pulltorefresh)
+    @BindView(R.id.other_pulltorefresh)
     PtrFrameLayout ptrFrame;
-    @Bind(R.id.rv_gank)
+    @BindView(R.id.rv_gank)
     RecyclerView mRecyclerView;
 
     private static final int IOS = 1;

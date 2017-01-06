@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.framework.ShareSDK;
@@ -41,12 +41,12 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class TodayActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    @Bind(R.id.today_rv_gank)
+    @BindView(R.id.today_rv_gank)
     RecyclerView mRecyclerView;
     //private ViewStub mEmptyViewStub, mVideoViewStub;
-    @Bind(R.id.today_iv_video)
+    @BindView(R.id.today_iv_video)
     VideoImageView mVideoImageView;
-    @Bind(R.id.today_toolbar)
+    @BindView(R.id.today_toolbar)
     Toolbar todayToolbar;
 
     private GankListAdapter mAdapter;

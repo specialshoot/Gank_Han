@@ -25,8 +25,8 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
-import com.example.hanzh.gankio_han.model.weather_baidu.HeWeather;
-import com.example.hanzh.gankio_han.model.weather_baidu.HeWeatherData;
+import com.example.hanzh.gankio_han.model.heweather_x3.HeWeather;
+import com.example.hanzh.gankio_han.model.heweather_x3.HeWeatherData;
 import com.example.hanzh.gankio_han.utils.NetUtils;
 import com.example.hanzh.gankio_han.utils.SPCurrentCityUtils;
 import com.example.hanzh.gankio_han.utils.SPUtils;
@@ -37,117 +37,118 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import javax.net.ssl.HttpsURLConnection;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class WeatherActivity extends AppCompatActivity {
 
-    @Bind(R.id.weather_toolbar)
+    @BindView(R.id.weather_toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.weather_city)
+    @BindView(R.id.weather_city)
     TextView cityTextView;
-    @Bind(R.id.NowWeatherIcon)
+    @BindView(R.id.NowWeatherIcon)
     ImageView nowWeatherIcon;
-    @Bind(R.id.NowWeather)
+    @BindView(R.id.NowWeather)
     TextView nowWeather;
-    @Bind(R.id.NowWeatherCondition)
+    @BindView(R.id.NowWeatherCondition)
     TextView nowWeatherCondition;
-    @Bind(R.id.lastUpdate)
+    @BindView(R.id.lastUpdate)
     TextView lastUpdate;
-    @Bind(R.id.weather_refresh)
+    @BindView(R.id.weather_refresh)
     ImageView weather_refresh;
 
     //今日
-    @Bind(R.id.today_weather_date)
+    @BindView(R.id.today_weather_date)
     TextView today_weather_date;
-    @Bind(R.id.today_weather_icon1)
+    @BindView(R.id.today_weather_icon1)
     ImageView today_weather_icon1;
-    @Bind(R.id.today_weather_icon2)
+    @BindView(R.id.today_weather_icon2)
     ImageView today_weather_icon2;
-    @Bind(R.id.today_weather_max)
+    @BindView(R.id.today_weather_max)
     TextView today_weather_max;
-    @Bind(R.id.today_weather_min)
+    @BindView(R.id.today_weather_min)
     TextView today_weather_min;
     //明日
-    @Bind(R.id.first_weather_date)
+    @BindView(R.id.first_weather_date)
     TextView first_weather_date;
-    @Bind(R.id.first_weather_icon1)
+    @BindView(R.id.first_weather_icon1)
     ImageView first_weather_icon1;
-    @Bind(R.id.first_weather_icon2)
+    @BindView(R.id.first_weather_icon2)
     ImageView first_weather_icon2;
-    @Bind(R.id.first_weather_max)
+    @BindView(R.id.first_weather_max)
     TextView first_weather_max;
-    @Bind(R.id.first_weather_min)
+    @BindView(R.id.first_weather_min)
     TextView first_weather_min;
     //后天
-    @Bind(R.id.second_weather_date)
+    @BindView(R.id.second_weather_date)
     TextView second_weather_date;
-    @Bind(R.id.second_weather_icon1)
+    @BindView(R.id.second_weather_icon1)
     ImageView second_weather_icon1;
-    @Bind(R.id.second_weather_icon2)
+    @BindView(R.id.second_weather_icon2)
     ImageView second_weather_icon2;
-    @Bind(R.id.second_weather_max)
+    @BindView(R.id.second_weather_max)
     TextView second_weather_max;
-    @Bind(R.id.second_weather_min)
+    @BindView(R.id.second_weather_min)
     TextView second_weather_min;
     //大后天
-    @Bind(R.id.third_weather_date)
+    @BindView(R.id.third_weather_date)
     TextView third_weather_date;
-    @Bind(R.id.third_weather_icon1)
+    @BindView(R.id.third_weather_icon1)
     ImageView third_weather_icon1;
-    @Bind(R.id.third_weather_icon2)
+    @BindView(R.id.third_weather_icon2)
     ImageView third_weather_icon2;
-    @Bind(R.id.third_weather_max)
+    @BindView(R.id.third_weather_max)
     TextView third_weather_max;
-    @Bind(R.id.third_weather_min)
+    @BindView(R.id.third_weather_min)
     TextView third_weather_min;
 
     //大大后天
-    @Bind(R.id.forth_weather_date)
+    @BindView(R.id.forth_weather_date)
     TextView forth_weather_date;
-    @Bind(R.id.forth_weather_icon1)
+    @BindView(R.id.forth_weather_icon1)
     ImageView forth_weather_icon1;
-    @Bind(R.id.forth_weather_icon2)
+    @BindView(R.id.forth_weather_icon2)
     ImageView forth_weather_icon2;
-    @Bind(R.id.forth_weather_max)
+    @BindView(R.id.forth_weather_max)
     TextView forth_weather_max;
-    @Bind(R.id.forth_weather_min)
+    @BindView(R.id.forth_weather_min)
     TextView forth_weather_min;
 
     //大大大后天
-    @Bind(R.id.fifth_weather_date)
+    @BindView(R.id.fifth_weather_date)
     TextView fifth_weather_date;
-    @Bind(R.id.fifth_weather_icon1)
+    @BindView(R.id.fifth_weather_icon1)
     ImageView fifth_weather_icon1;
-    @Bind(R.id.fifth_weather_icon2)
+    @BindView(R.id.fifth_weather_icon2)
     ImageView fifth_weather_icon2;
-    @Bind(R.id.fifth_weather_max)
+    @BindView(R.id.fifth_weather_max)
     TextView fifth_weather_max;
-    @Bind(R.id.fifth_weather_min)
+    @BindView(R.id.fifth_weather_min)
     TextView fifth_weather_min;
 
-    @Bind(R.id.air_quality)
+    @BindView(R.id.air_quality)
     TextView air_quality;
-    @Bind(R.id.AQI_text)
+    @BindView(R.id.AQI_text)
     TextView AQI_text;
-    @Bind(R.id.PM25_text)
+    @BindView(R.id.PM25_text)
     TextView PM25_text;
-    @Bind(R.id.PM10_text)
+    @BindView(R.id.PM10_text)
     TextView PM10_text;
-    @Bind(R.id.NO2_text)
+    @BindView(R.id.NO2_text)
     TextView NO2_text;
 
     Animation operatingAnim;
     //关于天气
-    private static final String httpUrl = "http://apis.baidu.com/heweather/weather/free";
+    private static final String HeHttpUrl = "https://free-api.heweather.com/x3/";
     private String httpArg = "";
     private String jsonResult = "";
     private Handler weatherHandler = new Handler();  //天气handler
@@ -420,12 +421,12 @@ public class WeatherActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        httpArg = "city=" + encoderCity;
+        httpArg = encoderCity;
         new Thread() {
             @Override
             public void run() {
                 try {
-                    jsonResult = request(httpUrl, httpArg);
+                    jsonResult = request(httpArg);
                     weatherHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -520,7 +521,7 @@ public class WeatherActivity extends AppCompatActivity {
         fifth_weather_max.setText(data.getDaily_forecast().get(5).getTmp().max);
         fifth_weather_min.setText(data.getDaily_forecast().get(5).getTmp().min);
 
-        if(data.getAqi()!=null) {
+        if (data.getAqi() != null) {
             AQI_text.setText(data.getAqi().getCity().aqi + "");
             PM25_text.setText(data.getAqi().getCity().pm25 + "");
             PM10_text.setText(data.getAqi().getCity().pm10 + "");
@@ -538,7 +539,7 @@ public class WeatherActivity extends AppCompatActivity {
             } else {
                 air_quality.setText("严重污染");
             }
-        }else{
+        } else {
             AQI_text.setText("未知");
             PM25_text.setText("未知");
             PM10_text.setText("未知");
@@ -552,25 +553,15 @@ public class WeatherActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 天气请求接口
-     *
-     * @param urlAll:请求接口
-     * @param httpArg:参数
-     * @return 返回结果
-     */
-    public static String request(String httpUrl, String httpArg) {
+    public static String request(String cityname) {
+        String httpUrl = HeHttpUrl + "weather?city=" + cityname + "&key=a0559fb7368042b082aa9779d90b9530";
         BufferedReader reader = null;
         String result = null;
         StringBuffer sbf = new StringBuffer();
-        httpUrl = httpUrl + "?" + httpArg;
-
         try {
             URL url = new URL(httpUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            // 填入apikey到HTTP header
-            connection.setRequestProperty("apikey", "f696127dcac9f6ee6543b9a1ada485b3");
             connection.connect();
             InputStream is = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));

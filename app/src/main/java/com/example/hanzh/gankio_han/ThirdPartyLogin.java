@@ -57,11 +57,11 @@ public class ThirdPartyLogin extends FakeActivity implements OnClickListener,
 
     @Override
     public boolean isRegisterSuccess(boolean isSuccess) {
-        if(isSuccess==true){
+        if (isSuccess == true) {
             ToastUtils.showShort(activity, "注册成功");
             this.finish();
             return true;
-        }else{
+        } else {
             System.out.println("false");
             ToastUtils.showShort(activity, "注册失败");
         }

@@ -35,7 +35,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.framework.ShareSDK;
@@ -45,13 +45,13 @@ public class PictureActivity extends AppCompatActivity {
 
     private final static String TAG = "PictureActivity";
     private final static String ALBUM_PATH = Environment.getExternalStorageDirectory() + "/GankIO_Han/";
-    @Bind(R.id.pic_container)
+    @BindView(R.id.pic_container)
     View container;
-    @Bind(R.id.showBigPicture)
+    @BindView(R.id.showBigPicture)
     ImageView showBigPicture;
-    @Bind(R.id.pictureToolbar)
+    @BindView(R.id.pictureToolbar)
     Toolbar picToolbar;
-    @Bind(R.id.pic_toolbar_title)
+    @BindView(R.id.pic_toolbar_title)
     TextView pic_toolbar_title;
 
     private ProgressDialog mSaveDialog = null;  //保存图片Dialog

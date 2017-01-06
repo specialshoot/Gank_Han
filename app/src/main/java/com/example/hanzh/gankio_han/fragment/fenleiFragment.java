@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -50,10 +50,10 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
     int bottomPage = 1;
 
     private View mView;
-    @Bind(R.id.id_pulltorefresh)
+    @BindView(R.id.id_pulltorefresh)
     PtrFrameLayout ptrFrame;
     private MyStaggeredViewAdapter mStaggeredAdapter;
-    @Bind(R.id.id_recyclerview)
+    @BindView(R.id.id_recyclerview)
     RecyclerView mRecyclerView;
     //private RecyclerView.LayoutManager mLayoutManager;
     private static final int SPAN_COUNT = 2;    //两列

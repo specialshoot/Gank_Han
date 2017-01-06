@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -29,9 +29,9 @@ public class SettingActivity extends AppCompatActivity {
 
     private List<String> titles = new ArrayList<String>(Arrays.asList("清空缓存"));
     private List<String> descs = new ArrayList<String>(Arrays.asList("清空图片,信息等缓存"));
-    @Bind(R.id.setting_list)
+    @BindView(R.id.setting_list)
     ListView setting_list;
-    @Bind(R.id.setting_toolbar)
+    @BindView(R.id.setting_toolbar)
     Toolbar toolbar;
     public static final int CLEAR = 123;
 

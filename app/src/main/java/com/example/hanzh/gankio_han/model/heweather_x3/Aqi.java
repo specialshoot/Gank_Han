@@ -1,4 +1,4 @@
-package com.example.hanzh.gankio_han.model.weather_baidu;
+package com.example.hanzh.gankio_han.model.heweather_x3;
 
 /**
  * Created by 轾 on 2015/11/5.

@@ -27,7 +27,7 @@ import com.example.hanzh.gankio_han.utils.ToastUtils;
 
 import java.io.InputStream;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.framework.ShareSDK;
@@ -35,13 +35,13 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class VideoActivity extends AppCompatActivity {
 
-    @Bind(R.id.video_toolbar)
+    @BindView(R.id.video_toolbar)
     Toolbar toolbar;
-    @Bind(R.id.videoWebView)
+    @BindView(R.id.videoWebView)
     WebView videoWebView;
-    @Bind(R.id.video_number_progress_bar)
+    @BindView(R.id.video_number_progress_bar)
     NumberProgressBar mProgressbar;
-    @Bind(R.id.video_frameLayout)
+    @BindView(R.id.video_frameLayout)
     FrameLayout frameLayout;
 
     private String mUrl;

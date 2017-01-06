@@ -1,4 +1,4 @@
-package com.example.hanzh.gankio_han.model.weather_baidu;
+package com.example.hanzh.gankio_han.model.heweather_x3;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class HeWeatherData {
 
+    private List<Alarms> alarms;
     private Aqi aqi;
     private Basic basic;
     private List<DailyForecast> daily_forecast;
@@ -15,6 +16,14 @@ public class HeWeatherData {
     private NowWeather now;
     private String status;
     private Suggestion suggestion;
+
+    public List<Alarms> getAlarms() {
+        return alarms;
+    }
+
+    public void setAlarms(List<Alarms> alarms) {
+        this.alarms = alarms;
+    }
 
     public Aqi getAqi() {
         return aqi;
@@ -75,7 +84,8 @@ public class HeWeatherData {
     @Override
     public String toString() {
         return "HeWeatherData{" +
-                "aqi=" + aqi +
+                "alarms=" + alarms +
+                ", aqi=" + aqi +
                 ", basic=" + basic +
                 ", daily_forecast=" + daily_forecast +
                 ", hourly_forecast=" + hourly_forecast +
