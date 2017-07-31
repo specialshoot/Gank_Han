@@ -29,6 +29,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.hanzh.gankio_han.utils.BrightnessUtils;
@@ -100,12 +101,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @BindView(R.id.activity_main_rfab)
     RapidFloatingActionButton rfaButton;
     private RapidFloatingActionHelper rfabHelper;
-    @BindView(R.id.head_layout)
-    View head_layout;
-    @BindView(R.id.id_header_face)
-    CircleImageView headicon;
-    @BindView(R.id.id_header_authorname)
-    TextView authorname;
+
+    private View head_layout;
+    private CircleImageView headicon;
+    private TextView authorname;
+
     // TabLayout中的tab标题
     private String[] mTitles;
     // 填充到ViewPager中的Fragment
@@ -133,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     private void initView() {
+        head_layout = (LinearLayout) id_navigationview.getHeaderView(0).findViewById(R.id.head_layout);
+        headicon = (CircleImageView) id_navigationview.getHeaderView(0).findViewById(R.id.id_header_face);
+        authorname = (TextView) id_navigationview.getHeaderView(0).findViewById(R.id.id_header_authorname);
         netReceiver = new ConnectionChangeReceiver(MainActivity.this);
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -301,13 +304,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         rfaContent.setOnRapidFloatingActionContentLabelListListener(this);
         List<RFACLabelItem> items = new ArrayList<>();
         items.add(new RFACLabelItem<Integer>()
-                        .setLabel("每日资讯")
-                        .setResId(R.mipmap.ic_github)
-                        .setIconNormalColor(0xffd84315)
-                        .setIconPressedColor(0xffbf360c)
-                        .setLabelColor(Color.WHITE)
-                        .setLabelBackgroundDrawable(ABShape.generateCornerShapeDrawable(0xaad84315, ABTextUtil.dip2px(MainActivity.this, 4)))
-                        .setWrapper(0)
+                .setLabel("每日资讯")
+                .setResId(R.mipmap.ic_github)
+                .setIconNormalColor(0xffd84315)
+                .setIconPressedColor(0xffbf360c)
+                .setLabelColor(Color.WHITE)
+                .setLabelBackgroundDrawable(ABShape.generateCornerShapeDrawable(0xaad84315, ABTextUtil.dip2px(MainActivity.this, 4)))
+                .setWrapper(0)
         );
         items.add(new RFACLabelItem<Integer>()
                         .setLabel("模式选择")
@@ -322,14 +325,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         );
 
         items.add(new RFACLabelItem<Integer>()
-                        .setLabel("天气情况")
-                        .setResId(R.mipmap.weathericon)
-                        .setIconNormalColor(0xff72d572)
-                        .setIconPressedColor(0xff42bd41)
-                        .setLabelColor(Color.WHITE)
-                        .setLabelSizeSp(14)
-                        .setLabelBackgroundDrawable(ABShape.generateCornerShapeDrawable(0x8830459E, ABTextUtil.dip2px(MainActivity.this, 4)))
-                        .setWrapper(2)
+                .setLabel("天气情况")
+                .setResId(R.mipmap.weathericon)
+                .setIconNormalColor(0xff72d572)
+                .setIconPressedColor(0xff42bd41)
+                .setLabelColor(Color.WHITE)
+                .setLabelSizeSp(14)
+                .setLabelBackgroundDrawable(ABShape.generateCornerShapeDrawable(0x8830459E, ABTextUtil.dip2px(MainActivity.this, 4)))
+                .setWrapper(2)
         );
         rfaContent.setItems(items)
                 .setIconShadowRadius(ABTextUtil.dip2px(MainActivity.this, 5))
@@ -374,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                         showAlertDialog();
                         break;
                     case R.id.nav_menu_ad:
-                        ToastUtils.showShort(MainActivity.this,"没有广告,百度无良企业,国内用不了google,用bing也好啊");
+                        ToastUtils.showShort(MainActivity.this, "没有广告,百度无良企业,国内用不了google,用bing也好啊");
                         break;
                 }
 
@@ -695,6 +698,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         super.onResume();
         JPushInterface.onResume(this);
     }
+
     @Override
     protected void onPause() {
         super.onPause();

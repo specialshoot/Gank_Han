@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,13 +13,8 @@ import android.view.ViewGroup;
 import com.example.hanzh.gankio_han.R;
 import com.example.hanzh.gankio_han.adapter.OthersRecyclerViewAdapter;
 import com.example.hanzh.gankio_han.model.CategoricalData;
-import com.example.hanzh.gankio_han.model.Gank;
 import com.example.hanzh.gankio_han.utils.ToastUtils;
 import com.google.gson.Gson;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
@@ -30,6 +24,11 @@ import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class OthersFragment extends Fragment {
 
@@ -109,7 +108,7 @@ public class OthersFragment extends Fragment {
 
     @OnClick(R.id.others_backtotop)
     void others_backtotop() {
-        ToastUtils.showShort(getActivity(),"返回顶部");
+        ToastUtils.showShort(getActivity(), "返回顶部");
         mRecyclerView.smoothScrollToPosition(0);
     }
 
@@ -120,7 +119,7 @@ public class OthersFragment extends Fragment {
         //enqueue开启一步线程访问网络
         client.newCall(request).enqueue(new Callback() {
                                             @Override
-                                            public void onFailure(Request request, IOException e) {
+                                            public void onFailure(Call call, IOException e) {
                                                 System.out.println("client onFailure");
                                                 getActivity().runOnUiThread(new Runnable() {
                                                     @Override
@@ -133,12 +132,12 @@ public class OthersFragment extends Fragment {
                                             }
 
                                             @Override
-                                            public void onResponse(Response response) throws IOException {
+                                            public void onResponse(Call call, Response response) throws IOException {
                                                 if (response.isSuccessful()) {
                                                     String body = response.body().string();
                                                     meizhiData = null;
                                                     CategoricalData data = new Gson().fromJson(body, CategoricalData.class);
-                                                    if (data.isError() == true) {
+                                                    if (data.isError()) {
                                                         ToastUtils.showShort(getActivity(), "没有新数据");
                                                         System.out.println("no data error");
                                                         ptrFrame.refreshComplete();
@@ -151,25 +150,25 @@ public class OthersFragment extends Fragment {
                                                         } else {
                                                             meizhiData = data;
                                                             getActivity().runOnUiThread(new Runnable() {
-                                                                        @Override
-                                                                        public void run() {
-                                                                            // 刷新时模拟数据的变化
-                                                                            new Handler().postDelayed(new Runnable() {
-                                                                                @Override
-                                                                                public void run() {
-                                                                                    try {
-                                                                                        mAdapter.mGankList.clear();
-                                                                                        mAdapter.mGankList.addAll(meizhiData.getResults());
-                                                                                        mAdapter.notifyDataSetChanged();
-                                                                                    }catch (Exception e){
-                                                                                        e.printStackTrace();
-                                                                                    }finally {
-                                                                                        ptrFrame.refreshComplete();
-                                                                                    }
-                                                                                }
-                                                                            }, 1000);
-                                                                        }
-                                                                    }
+                                                                                            @Override
+                                                                                            public void run() {
+                                                                                                // 刷新时模拟数据的变化
+                                                                                                new Handler().postDelayed(new Runnable() {
+                                                                                                    @Override
+                                                                                                    public void run() {
+                                                                                                        try {
+                                                                                                            mAdapter.mGankList.clear();
+                                                                                                            mAdapter.mGankList.addAll(meizhiData.getResults());
+                                                                                                            mAdapter.notifyDataSetChanged();
+                                                                                                        } catch (Exception e) {
+                                                                                                            e.printStackTrace();
+                                                                                                        } finally {
+                                                                                                            ptrFrame.refreshComplete();
+                                                                                                        }
+                                                                                                    }
+                                                                                                }, 1000);
+                                                                                            }
+                                                                                        }
                                                             );
                                                         }
                                                     }

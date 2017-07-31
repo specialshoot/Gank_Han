@@ -3,18 +3,14 @@ package com.example.hanzh.gankio_han;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewStub;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hanzh.gankio_han.adapter.GankListAdapter;
@@ -23,10 +19,6 @@ import com.example.hanzh.gankio_han.model.Gank;
 import com.example.hanzh.gankio_han.utils.ToastUtils;
 import com.example.hanzh.gankio_han.widget.VideoImageView;
 import com.google.gson.Gson;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,9 +30,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class TodayActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    private static final String TAG = "TodayActivityTAG";
     @BindView(R.id.today_rv_gank)
     RecyclerView mRecyclerView;
     //private ViewStub mEmptyViewStub, mVideoViewStub;
@@ -118,21 +116,20 @@ public class TodayActivity extends AppCompatActivity implements DatePickerDialog
         //enqueue开启一步线程访问网络
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
-                System.out.println("client onFailure");
+            public void onFailure(Call call, IOException e) {
+                Log.v(TAG, "client onFailure");
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String body = response.body().string();
                     System.out.println("body:" + body);
-                    DailyData tempdata = new DailyData();
-                    tempdata = new Gson().fromJson(body, DailyData.class);
+                    DailyData tempdata = new Gson().fromJson(body, DailyData.class);
                     System.out.println("tempdata : " + tempdata.toString());
-                    if (tempdata.isError() == true) {
+                    if (tempdata.isError()) {
                         kong = true;
-                        System.out.println("isError() == true");
+                        Log.v(TAG, "isError() == true");
                     } else {
                         if (tempdata != null) {
                             if (tempdata.category.isEmpty()) {

@@ -1,7 +1,6 @@
 package com.example.hanzh.gankio_han.fragment;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -22,11 +21,6 @@ import com.example.hanzh.gankio_han.model.Gank;
 import com.example.hanzh.gankio_han.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.litesuits.orm.db.assit.QueryBuilder;
-import com.litesuits.orm.db.model.ConflictAlgorithm;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +32,11 @@ import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.OnItemClickListener {
 
@@ -201,7 +200,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
         //enqueue开启一步线程访问网络
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -213,7 +212,7 @@ public class fenleiFragment extends Fragment implements MyStaggeredViewAdapter.O
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String body = response.body().string();
                     meizhiData = null;
